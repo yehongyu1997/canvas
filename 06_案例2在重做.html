@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .box {
+            width: 360px;
+            border: 1px solid #ccc;
+            margin-bottom: 10px;
+            padding: 20px;
+        }
+
+        button {
+            width: 60px;
+            height: 40px;
+            font-size: 40px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+
+    </div>
+    <script>
+        function Zuhe() {
+            this.a = 0;
+            this.init();
+            this.bindEvent();
+        }
+        Zuhe.prototype.init = function () {
+            this.box = document.createElement('div');
+            this.box.innerHTML = ['<button disabled>-</button>',
+                '<img src="images/0.png" alt="">',
+                '<button>+</button>'].join("");
+                // 上树
+            document.getElementById("app").appendChild(this.box);
+            this.btn1 = this.box.getElementsByTagName('button')[0];
+            this.btn2 = this.box.getElementsByTagName('button')[1];
+            this.img = this.box.getElementsByTagName('img')[0];
+            }
+            Zuhe.prototype.bindEvent = function(){
+                var self= this;
+
+                this.btn2.onclick = function(){
+                      self.btn1.disabled= false;
+                      self.a++;
+                      self.img.src = 'images/'+self.a +'.png';
+                      if(self.a==2){
+                          self.btn2.disabled= true;
+                      }
+                }
+                this.btn1.onclick = function(){
+                      self.btn2.disabled= false;
+                      self.a--;
+                      self.img.src = 'images/'+self.a +'.png';
+                      if(self.a==0){
+                          self.btn1.disabled= true;
+                      }
+                }
+            }
+
+        new Zuhe();
+        new Zuhe();
+        new Zuhe();
+        new Zuhe();
+        new Zuhe();
+    </script>
+</body>
+
+</html>

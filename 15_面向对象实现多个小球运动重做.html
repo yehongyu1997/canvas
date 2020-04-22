@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        canvas {
+            border: 1px solid #000;
+        }
+    </style>
+</head>
+<body>
+    <button id="btn">按我出现小球</button>
+    <canvas id="canvas" width="600" height="400"></canvas>
+<script>
+    // 得到元素
+    var btn=document.getElementById('btn');
+    var canvas=document.getElementById('canvas');
+    var ctx=canvas.getContext('2d');
+    var ballarr=[];
+    // 写一个球类
+    function Ball(x,y,r,color,speed){
+        this.x=x;
+        this.y=y;
+        this.r=r;
+        this.color=color;
+        this.speed=speed;
+        ballarr.push(this);
+    }
+
+    // 球的渲染方法
+    Ball.prototype.render=function(){
+        ctx.beginPath();
+        ctx.arc(this.x,this.y, this.r,0,Math.PI*2,true)
+        ctx.fillStyle=this.color
+        ctx.fill()
+    };
+
+    // 更新方法
+    Ball.prototype.update=function(){
+        // 圆心的横坐标发生变化
+      this.x+=this.speed;
+    };
+btn.onclick = function(){
+    new Ball(100,100,60,'red',3)
+}
+
+    // 定时器
+    setInterval(function(){
+           ctx.clearRect(0,0,600,400);
+           for(var i = 0  ;i<ballarr.length;i++){
+                   ballarr[i].update();
+                   ballarr[i].render();
+
+           }
+    },20)
+</script>
+</body>
+</html>

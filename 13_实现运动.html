@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        canvas {
+            border: 1px solid #000;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="canvas" width="600" height="400"></canvas>
+    <script>
+        // 得到canvas画布
+        var canvas = document.getElementById('canvas');
+        // 画布没有什么用，必须用画布创建渲染上下文才行
+        var ctx = canvas.getContext('2d');
+// 圆心的很坐标位置
+       var yuanxin=100;
+    //    利用定时器
+       setInterval(function (){
+
+           yuanxin++;
+        //    必须先清屏方法，起点，需要清屏的宽和高
+           ctx.clearRect(0,0,600,400)
+        //    绘制新路径
+          ctx.beginPath();
+        //   绘制一个圆
+          ctx.arc(yuanxin,100,40,0,Math.PI*2,false)
+        //   填充颜色
+          ctx.fillStyle = 'blue';
+        //   填充方法
+          ctx.fill();
+       },20)
+    </script>
+</body>
+
+</html>
+

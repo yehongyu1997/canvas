@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        canvas {
+            border: 1px solid #000;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="canvas" width="600" height="400"></canvas>
+    <script>
+        // 得到canvas画布
+        var canvas = document.getElementById('canvas');
+        // 画布没有什么用，必须用画布创建渲染上下文才行
+        var ctx = canvas.getContext('2d');
+        // 封装一个女孩类
+        function Girl() {
+                this.x=100;
+                this.y=100;
+                this.step=0;
+
+                // 状态量，是否在移动
+                this.isMove = false;
+
+                // 状态量，方向
+                this.direction =2 ;
+        }
+        // 渲染方法
+        Girl.prototype.render = function () {
+            ctx.drawImage(img,79*this.step,108*this.direction,79,108,this.x,this.y,79,108);
+        }
+        // 更新方法
+        Girl.prototype.update = function () {
+            if( this.isMove){
+
+                    if(this.direction==0){
+                        this.y++;
+                    }else if(this.direction==1){
+                        this.x--;
+                    }else if(this.direction==2){
+                        this.x++;
+                    }else if(this.direction==3){
+                        this.y--;
+                    }
+
+                    if(f%3==0){
+                        this.step++;
+                    }
+                    if(this.step>7){
+                        this.step=0;
+                    }
+            }
+        }
+        Girl.prototype.run = function () {
+            this.isMove = true;
+        }
+        Girl.prototype.stop = function () {
+            this.isMove = false;
+            this.step=0;
+        }
+        Girl.prototype.changeDirection = function (d){
+                  this.direction=d;
+        }
+        // 帧编号
+        var f = 0;
+        // 实例化一个小女孩
+        var alice = new Girl();
+        var img = new Image();
+        // 图片加载完成之后才进行定时器
+        img.onload = function (){
+            setInterval(function () {
+                f++;
+                // 先清屏
+                ctx.clearRect(0, 0, 600, 400);
+                // 显示帧编号
+                ctx.fillText(f, 10, 20);
+                // 调用更新和渲染方法
+                alice.update();
+                alice.render();
+            }, 20)
+
+        }
+        // 图片的地址
+        img.src = 'images/girl.png'
+
+        // 键盘监听
+        document.onkeydown = function (e) {
+            if (e.keyCode == 37) {
+                alice.changeDirection(1);
+                alice.run();
+            } else if (e.keyCode == 38) {
+                alice.changeDirection(3);
+                alice.run();
+            } else if (e.keyCode == 39) {
+                alice.changeDirection(2);
+                alice.run();
+            } else if (e.keyCode == 40) {
+                alice.changeDirection(0);
+                alice.run();
+            }
+        }
+
+        document.onkeyup = function (e) {
+            if (e.keyCode >= 37 && e.keyCode <= 40) {
+                alice.stop();
+            }
+        }
+    </script>
+</body>
+
+</html>

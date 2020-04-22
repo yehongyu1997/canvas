@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+      .box {
+            width: 360px;
+            border: 1px solid #ccc;
+            margin-bottom: 10px;
+            padding: 20px;
+        }
+        .t1 {
+            background-color: skyblue;
+        }
+
+        .t2 {
+            background-color: rgb(240, 117, 182);
+        }
+
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <p>
+            <input type=" text" id="kuang">
+        <button id="tj_btn">添加</button>
+        <ul id="list"></ul>
+
+        </p>
+    </div>
+    <script>
+        // 写一个tiao的构造函数
+        function Tiao(title) {
+            // 标题
+            this.title = title;
+            // 初始化方法
+            this.init();
+            // 绑定事件监听
+            this.bindEvent();
+            this.isEditing=false;
+       
+        self.kuang.focus();
+        }
+        
+        // 原型链上的初始化函数
+        Tiao.prototype.init = function () {
+            this.box = document.createElement('li');
+            this.box.innerHTML = `
+               <input value="${this.title}" style="display: none;">
+                <span>${this.title}</span>
+                <button class='t2'>编辑</button>
+                <button>删除</button>
+            `;
+         
+            this.btn1 = this.box.getElementsByTagName('button')[0];
+            this.btn2 = this.box.getElementsByTagName('button')[1];
+            this.kuang = this.box.getElementsByTagName('input')[0];
+            this.span = this.box.getElementsByTagName('span')[0];
+            list.appendChild(this.box);
+        }
+
+        Tiao.prototype.bindEvent = function () {
+            var self = this;
+            this.btn1.onclick = function () {
+                if(!self.isEditing){
+                    self.isEditing=true;
+                    self.span.style.display = 'none';
+                  self.kuang.style.display = 'inline-block';
+                  self.btn1.innerHTML='确定';
+                  self.btn1.className='t1';
+                  self.kuang.focus();
+                }else{
+                    self.isEditing=false;
+                    self.span.style.display = 'inline-block';
+                  self.kuang.style.display = 'none';
+                  self.btn1.innerHTML='编辑';
+                  self.title= self.kuang.value;
+                  self.span.innerHTML=self.title;
+                  self.btn1.className='t2'
+
+                }  
+            }
+            this.btn2.onclick= function() {
+                self.box.parentNode.removeChild(self.box);
+            } 
+        }
+        // 主功能构造函数
+        function Main() {
+            // 得到dom元素
+            this.tj_btn = document.getElementById('tj_btn');
+            this.kuang = document.getElementById('kuang');
+            var self = this;
+            //  添加事件监听
+            this.tj_btn.onclick = function () {
+                new Tiao(self.kuang.value)
+            }
+        }
+        // new 一个主功能函数
+        new Main();
+    </script>
+
+</body>
+
+</html>

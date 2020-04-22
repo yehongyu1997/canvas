@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        canvas {
+            border: 1px solid #000;
+            background-color: black;
+        }
+    </style>
+</head>
+
+<body>
+
+    <canvas id="canvas" width="600" height="400"></canvas>
+    <script>
+        // 得到元素
+
+        var canvas = document.getElementById('canvas');
+        var ctx = canvas.getContext('2d');
+        var ballarr = [];
+        var allcolor = ['#66CCCC', '#CCFF66', '#FF99CC', '#FF9900', '#CCFF00', '#66CCCC', '#FFFF66'];
+        // 写一个球类
+        function Ball(x, y) {
+            this.x = x;
+            this.y = y;
+            this.r = 20;
+            this.color = allcolor[parseInt(Math.random() * allcolor.length)];
+            this.opacity = 1;
+            // 通过横纵坐标的变化来改变圆心的移动方向
+            do {
+                this.dx = parseInt(Math.random() * 8) - 4;
+                this.dy = parseInt(Math.random() * 8) - 4;
+            } while (this.dx == 0 && this.dy == 0)
+            ballarr.push(this);
+        }
+
+        // 球的渲染方法
+        Ball.prototype.render = function () {
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2, true)
+            ctx.fillStyle = this.color;
+            // 保存当前画布状态
+            ctx.save();
+            // 改变透明度
+            ctx.globaAlpha = this.opacity;
+            ctx.fill()
+            // 恢复，不影响别的小球
+            ctx.restore();
+        };
+
+        // 更新方法
+        Ball.prototype.update = function () {
+            // 改变自己的圆心
+            this.x += this.dx;
+            this.y += this.dy;
+            // 改变半径
+            this.r += 0.1;
+            // 改变透明度
+            this.opacity -= 0.01;
+            // 当透明度小于0时,就删除该小球
+            if (this.opacity <= 0) {
+                for (var i = 0; i < ballarr.length; i++) {
+                    if (ballarr[i] == this) {
+                        ballarr.splice(i, 1);
+                    }
+                }
+            }
+        }
+
+
+        // 定时器
+        setInterval(function () {
+            ctx.clearRect(0, 0, 600, 400);
+            for (var i = 0; i < ballarr.length; i++) {
+                ballarr[i].update();
+                ballarr[i] && ballarr[i].render();
+
+            }
+        }, 20)
+        canvas.onmousemove = function (e) {
+            new Ball(e.offsetX, e.offsetY);
+        }
+    </script>
+</body>
+
+</html>

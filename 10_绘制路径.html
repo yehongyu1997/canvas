@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        canvas {
+            border: 1px solid #000;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas" width="600" height="400"></canvas>
+<script>
+    // 应该熟记API的驼峰
+    var canvas =document.getElementById('canvas');
+    var ctx =canvas.getContext('2d');
+    // 开始绘制新路径
+    ctx.beginPath();
+    //起点
+    ctx.moveTo(100,100);
+    ctx.lineTo(100,200);
+    ctx.lineTo(200,200);
+    ctx.lineTo(200,100);
+// 自动闭合
+    ctx.closePath();
+    // 设置线条的宽度
+    ctx.lineWidth= 10;
+    ctx.strokeStyle= 'green';
+
+    // stroke（）通过线条来绘制图形轮廓
+    ctx.stroke();
+    ctx.fillStyle= 'pink';
+    ctx.fill();
+</script>
+</body>
+</html>

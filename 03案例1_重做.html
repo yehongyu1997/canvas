@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <input type="text" id="kuang">
+        <button id="tj_btn">添加</button>
+        <ul id="list"></ul>
+    </div>
+    <script>
+        // 写一个tiao的构造函数
+        function Tiao(title) {
+            this.title = title;
+            this.init();
+            this.bindEvent();
+            this.isEditing = false;
+            self.kuang.focus();
+        }
+        Tiao.prototype.init = function () {
+            this.box = document.createElement('li');
+            this.box.innerHTML = `
+                 <input value="${this.title}" style="display:none">
+                 <span>${this.title}</span>
+                 <button>编辑</button>
+                 <button>删除</button>
+            
+            `
+            // 得到dom元素
+            this.btn1 = this.box.getElementsByTagName('button')[0];
+            this.btn2 = this.box.getElementsByTagName('button')[1];
+            this.span = this.box.getElementsByTagName('span')[0];
+            this.kuang = this.box.getElementsByTagName('input')[0];
+            // 上树
+            list.appendChild(this.box);
+        }
+
+       Tiao.prototype.bindEvent = function () {
+            var self = this;
+            this.btn1.onclick = function () {
+                if (!this.isEditing) {
+                    this.isEditing = true;
+                    self.span.style.display = 'none';
+                    self.kuang.style.display = 'inline-block';
+                    self.btn1.innerHTML = '确定'
+                } else {
+                    self.span.style.display = 'inline-block';
+                    self.kuang.style.display = 'none';
+                    self.btn1.innerHTML = '编辑'
+                    self.title = self.kuang.value;
+                    self.span.innerHTML = self.title;
+                }
+            }
+            this.btn2.onclick = function () {
+ 
+                self.box.parentNode.removeChild(self.box)
+            }
+        }
+        function Main() {
+            this.tj_btn = document.getElementById('tj_btn');
+            this.kuang = document.getElementById('kuang');
+            var self = this;
+            this.tj_btn.onclick = function () {
+                new Tiao(self.kuang.value);
+            }
+        }
+        new Main();
+    </script>
+</body>
+
+</html>

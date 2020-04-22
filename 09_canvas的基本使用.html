@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        canvas {
+            border: 10px solid orange;
+        }
+    </style>
+</head>
+<body>
+    <!-- 重点：canvas的宽和高不能用css来设置样式，应该用行内式来设置 -->
+    <canvas  id="canvas"    width="600" height="400"> </canvas>
+    <script> 
+        // 得到canvas
+        var canvas =document.getElementById('canvas') ;
+        // 得到上下文
+        var ctx =canvas.getContext('2d') ;
+        // 填充颜色必须在绘制矩形之前设置，
+        // 矩形绘制之后再设置填充颜色就起不到效果
+        ctx.fillStyle= 'pink';
+        // 绘制一个带有填充颜色的矩形
+        // 前两个参数是起点，后两个参数是填充的宽和高
+        ctx.fillRect(0,0,600,400);
+    </script>
+</body>
+</html>

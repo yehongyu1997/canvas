@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        canvas {
+            border: 1px solid #000;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="canvas" width="600" height="400"> </canvas>
+    <script>
+        var canvas = document.getElementById('canvas');
+        var ctx = canvas.getContext('2d');
+        // 绘制圆弧也相当于绘制线条
+
+        // 绘制线条之后再用stroke方法把线条画出来
+        // 还可以给线条设置属性，比如线条宽度和颜色
+        ctx.beginPath();
+        // 前两个参数是圆心的位置，第三个参数的半径的大小
+        // 第四个和第五个参数是弧度的范围，最后一个表示时针方向
+        // false 表示顺时针 ，TRUE表示逆时针
+        ctx.arc(100, 100, 40, 0, Math.PI, false);
+        ctx.lineWidth = 20;
+        ctx.strokeStyle = 'pink';
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.arc(200, 220, 60, 0, Math.PI * 2, false);
+        ctx.lineWidth = 10;
+        ctx.strokeStyle = 'green';
+        ctx.stroke();
+        // 绘制一个同心圆
+        
+        for (var i = 0; i < 50; i++) {
+        
+            ctx.beginPath();
+            ctx.arc(300, 220, 5+5*i, 0, Math.PI * 2, false);
+            ctx.lineWidth = 1;
+            ctx.strokeStyle = 'green';
+            ctx.stroke();
+        }
+    </script>
+</body>
+
+</html>

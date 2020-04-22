@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+         .box {
+            width: 360px;
+            border: 1px solid #ccc;
+            margin-bottom: 10px;
+            padding: 20px;
+        }
+        .box li {
+            width: 500px;
+            height: 30px;
+        }
+        .t1 {
+            background-color: skyblue;
+        }
+
+        .t2 {
+            background-color: rgb(240, 117, 182);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <p>
+            <input type="text" id="kuang">
+            <button id="tj_btn">添加</button>
+            <ul id="list"></ul>
+        </p>
+    </div>
+
+    <script>
+        // 先写一个条类,此处为构造函数
+        function Tiao(title) {
+            // 标题
+            this.title = title;
+            //   初始化方法
+            this.init();
+
+            // 绑定事件监听
+            this.bindEvent();
+            // 设置一个信号量。刚开始没处在编辑状态
+            this.isEditing = false;
+            // 清空框的值
+            // 聚焦
+            this.kuang.focus();
+        }
+
+        Tiao.prototype.init = function () {
+            // 创建自己的节点
+            this.box = document.createElement('li');
+            this.box.innerHTML = `
+                <input value="${this.title}" style='display:none;"'>
+                <span>${this.title}</span>
+                 <button class="t1">编辑</button>
+                <button>删除</button>
+            `;
+            // 得到dom元素
+            this.btn1 = this.box.getElementsByTagName('button')[0];
+            this.btn2 = this.box.getElementsByTagName('button')[1];
+            this.span = this.box.getElementsByTagName('span')[0];
+            this.kuang = this.box.getElementsByTagName('input')[0];
+            // 上树
+            list.appendChild(this.box);
+        }
+
+        Tiao.prototype.bindEvent = function () {
+            // 备份
+            var self = this;
+            // btn1点击事件
+            this.btn1.onclick = function () {
+                // 如果点击按钮的时候，未处于修改状态
+          
+                if (!self.isEditing) {
+                          // 那么将其设置为修改状态
+                    self.isEditing = true;
+                    self.span.style.display = 'none';
+                    self.kuang.style.display = 'inline-block';
+                    self.btn1.innerHTML = '确定';
+                    self.btn1.className='t2';
+
+                    self.kuang.focus();
+                } else {
+                    self.isEditing = false;
+                    // 修改编辑后的框的值
+                    self.title = self.kuang.value;
+                    self.span.innerHTML = self.title;
+                    self.span.style.display = 'block';
+                    self.kuang.style.display = 'none';
+                    self.btn1.innerHTML = '编辑';
+                    self.btn1.className='t1';
+                }
+
+            }
+            this.btn2.onclick = function () {
+                // 删除节点
+                self.box.parentNode.removeChild(self.box);
+            }
+
+        }
+        // 在写个主功能类
+        function Main() {
+            this.tj_btn = document.getElementById('tj_btn');
+            this.kuang = document.getElementById('kuang');
+            var self = this;
+            this.tj_btn.onclick = function () {
+                new Tiao(self.kuang.value);
+            }
+        }
+        // new一下主功能类，程序就可以运行
+        new Main();
+    </script>
+</body>
+
+</html>

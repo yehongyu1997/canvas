@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .t1{
+            background:-webkit-linear-gradient(top,rgba(192, 107, 207, 0.2),rgba(180, 55, 86, 0.8));
+        }
+        .t2{
+            background:-webkit-linear-gradient(top,rgba(214, 95, 15, 0.2),rgba(223, 204, 41, 0.8));
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <input type="text" id="kuang">
+        <button id="tj_btn">添加</button>
+        <ul id="list"></ul>
+
+    </div>
+    <script>
+        function Tiao(title) {
+            this.title = title;
+            this.init();
+            this.bindEvent();
+            this.isEidting = false;
+            self.kuang.focus();
+        }
+        Tiao.prototype.init = function () {
+            this.box = document.createElement('li');
+            this.box.innerHTML = `
+                <input value='${this.title}'  style="display: none;">
+                <span>${this.title}</span>
+                <button class='t1'>编辑</button>
+                <button class='t1'>删除</button>
+        `
+            list.appendChild(this.box);
+            this.btn1 = this.box.getElementsByTagName('button')[0];
+            this.btn2 = this.box.getElementsByTagName('button')[1];
+            this.kuang = this.box.getElementsByTagName('input')[0];
+            this.span = this.box.getElementsByTagName('span')[0];
+        }
+
+        Tiao.prototype.bindEvent = function () {
+            var self = this;
+            this.btn1.onclick = function () {
+                if (!this.isEidting) {
+                    this.isEidting= true;
+                    self.kuang.style.display = 'inline-block';
+                    self.span.style.display = 'none';
+                    self.btn1.innerHTML = '确定';
+                    self.btn1.className='t2';
+                    self.kuang.focus();
+                }else{
+                    this.isEidting= false;
+                    self.kuang.style.display = 'none';
+                    self.span.style.display = 'inline-block';
+                    self.title=self.kuang.value;
+                    self.span.innerHTML=self.title;
+                    self.btn1.innerHTML='编辑';
+                    self.btn1.className='t1';
+                }}
+             this.btn2.onclick = function(){
+                   self.box.parentNode.removeChild(self.box);
+               }
+
+            }
+        
+        function Main() {
+            var self = this;
+            this.tj_btn = document.getElementById('tj_btn');
+            this.kuang = document.getElementById('kuang');
+            self.tj_btn.onclick = function () {
+                new Tiao(self.kuang.value);
+            }
+        }
+        new Main();
+    
+    </script>
+</body>
+
+</html>
